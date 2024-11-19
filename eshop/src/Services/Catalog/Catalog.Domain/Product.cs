@@ -14,6 +14,7 @@ namespace Catalog.Domain
         public decimal Price { get; private set; }
 
         // TODO 1: Image bilgisini Record olarak kullan. 
+        public ImageInfo ImageInfo { get; set; }
 
         public void ChangePrice(decimal price)
         {
