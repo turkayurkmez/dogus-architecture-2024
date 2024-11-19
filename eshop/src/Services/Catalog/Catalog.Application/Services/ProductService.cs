@@ -15,16 +15,16 @@ namespace Catalog.Application.Services
          * 
          * Acaba bunun yerine yeni her iş ya da use case, yeni bir sınıf olarak yazılsa?
          */
-        async Task<IEnumerable<Product>> GetProducts()
-        {
-            return await productRepository.GetAllAsync();
-        }
+        //async Task<IEnumerable<Product>> GetProducts()
+        //{
+        //    return await productRepository.GetAllAsync();
+        //}
 
-        async Task DiscountPrice(int id, decimal discount)
-        {
-            var product = await productRepository.FindAsync(id);
-            product.ChangePrice(product.Price * (1-discount));
+        //async Task DiscountPrice(int id, decimal discount)
+        //{
+        //    var product = await productRepository.FindAsync(id);
+        //    product.ChangePrice(product.Price!.Value * (1-discount));
 
-        }
+        //}
     }
 }

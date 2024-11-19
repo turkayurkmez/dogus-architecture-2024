@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,10 @@ namespace Catalog.Domain
      * 2. Bu özellik kompleks bir tip ise 
      * 
      */
+   [Keyless]
     public record ImageInfo
     {
+        public int Id { get; set; }
         public string ImageUrl { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
