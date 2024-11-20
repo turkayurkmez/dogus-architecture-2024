@@ -16,9 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Products\CreateNewProduct\" />
     <Folder Include="Features\Products\UpdateProduct\" />
-    <Folder Include="Features\Products\SearchByName\" />
   </ItemGroup>
 
 </Project>
