@@ -1,0 +1,25 @@
+[
+  {
+    "Id": 10,
+    "Name": "P1",
+    "Description": "P1 Açıklaması",
+    "Price": 1,
+    "ImageUrl": "https://placehold.co/400"
+  },
+  {
+    "Id": 20,
+    "Name": "P2",
+    "Description": "P1 Açıklaması",
+    "Price": 1,
+    "ImageUrl": "https://placehold.co/400"
+  },
+  {
+    "Id": 30,
+    "Name": "P3",
+    "Description": "P1 Açıklaması",
+    "Price": 1,
+    "ImageUrl": "https://placehold.co/400"
+  }
+  
+
+]

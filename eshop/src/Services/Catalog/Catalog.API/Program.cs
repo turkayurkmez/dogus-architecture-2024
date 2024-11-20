@@ -1,4 +1,4 @@
-using Catalog.Application.Contracts;
+﻿using Catalog.Application.Contracts;
 using Catalog.Application.Features.Products.GetAllProducts;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repository;
@@ -36,3 +36,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+    //test Fixture olarak bu tipe erişebilmek için isim belirttik
+}
