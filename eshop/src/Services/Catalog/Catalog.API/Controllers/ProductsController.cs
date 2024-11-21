@@ -1,7 +1,11 @@
-﻿using Catalog.Application.Features.Products.CreateNewProduct;
+﻿
+using Catalog.Application.Features.Products.CreateNewProduct;
+using Catalog.Application.Features.Products.DiscountProductPrice;
 using Catalog.Application.Features.Products.GetAllProducts;
 using Catalog.Application.Features.Products.GetProductById;
 using Catalog.Application.Features.Products.SearchByName;
+using eshop.MessageBus;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +14,7 @@ namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(IMediator mediator) : ControllerBase
+    public class ProductsController(IMediator mediator, IPublishEndpoint publishEndpoint) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -62,7 +66,22 @@ namespace Catalog.API.Controllers
         }
 
 
+        // TODO 2: Ürün fiyatını düşüren action yaz! 
+        [HttpPut("discount/{id:int}")]
+        public async Task<IActionResult> DiscountPrice(int id, DiscountProductPriceCommand request)
+        {
 
-
+            if (ModelState.IsValid)
+            {
+                var response = await mediator.Send(request);
+                var @event = new ProductPriceDiscountedEvent
+                {
+                    ProductPriceDiscountCommand = new ProductPriceDiscountCommand(response.Id, response.OldPrice, response.NewPrice, request.Discount)
+                };
+                await publishEndpoint.Publish(@event);
+                return Ok(response);
+            }
+            return BadRequest();
+        }
     }
 }

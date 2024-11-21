@@ -2,6 +2,7 @@
 using Catalog.Application.Features.Products.GetAllProducts;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repository;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Writers;
 
@@ -18,6 +19,24 @@ var connectionString = builder.Configuration.GetConnectionString("db");
 builder.Services.AddDbContext<DogusEshopDbContext>(option => option.UseSqlServer(connectionString));
 builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<GetAllProductsQuery>());
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((context, factoryConfig) =>
+    {
+        factoryConfig.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        factoryConfig.ConfigureEndpoints(context);
+    });
+
+    
+
+   
+});
 
 var app = builder.Build();
 //using var scope  = app.Services.CreateScope();

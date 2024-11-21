@@ -1,0 +1,22 @@
+﻿
+
+Sipariş eylemi ve Choreography pattern:
+
+1. Order ms OrderCreatedEvent(
+               OrderCreateCommand(OrderId, CustomerId, CreditCardInfo, 
+                OrderItems(ProductId Quantity, Price)[])) 
+   olayı fırlar.
+2. Stock ms OrderCreatedEvent'i consume eder ve ürün stok denetimi yapar.
+   A. Stok uygundur. StockAvailableEvent(StockAvailableCommand(OrderId, CustomerId, CreditCardInfo,TotalPrice)) fırlar.
+   B. Stok uygun değil. StockNotAvailableEvent(StockNotAvailableCommand(OrderId))
+
+3. Payment ms StockAvailableEvent'i consume eder ve ödeme yapmaya çalışır.
+   A. Banka ent. başarılı olur PaymentSuccessEvent(PaymentSucceededCommand(OrderId,CustomerId)) olayı fırlar.
+   B. Banka ent. başarısız olur   PaymentFailedEvent(PaymentFailedCommand(OrderId,CustomerId,Reason)) olayı fırlar.
+4. Order ms
+   A. PaymentSuccessEvent olayını consume eder ve db'de Siparişi "Approved" olarak günceller
+   B. PaymentFailedEvent olayını consume eder ve db'de Siparişi "Rejected" olarak günceller
+   C. StockNotAvailableEvent olayını consume eder ve db'de Siparişi "Rejected" olarak günceller
+   
+
+

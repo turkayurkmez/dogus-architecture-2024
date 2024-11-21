@@ -36,7 +36,7 @@ namespace Catalog.Domain
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public bool IsActive { get; set; } = true;
-        public void ChangePrice(decimal price)
+        public void ChangePrice(decimal? price)
         {
 
             Price = price;

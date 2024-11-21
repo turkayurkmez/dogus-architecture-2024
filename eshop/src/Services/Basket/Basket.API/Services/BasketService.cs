@@ -14,6 +14,8 @@ namespace Basket.API.Services
             logger.LogInformation($"Gelen talepteki ürünler: {string.Join(",", request.Items.Select(x => x.ProductId.ToString()))}");
 
             var response = new AddToBasketResponse();
+            var customerBasket = MapToCustomerBasket("anonym", request);
+            //repository.AddToBasket(customerBasket);
             foreach (var item in request.Items)
             {
                 response.Items.Add(item);   
@@ -21,6 +23,21 @@ namespace Basket.API.Services
 
            
             return await Task.FromResult(response);
+        }
+
+        private CustomerBasket MapToCustomerBasket(string userName, AddToBasketRequest request)
+        {
+            var response = new CustomerBasket
+            {
+                CustomerId = userName,
+                Items = new List<BasketItem>()
+            };
+
+            foreach (var item in request.Items)
+            {
+                response.Items.Add(new() { ProductId = item.ProductId, Quantity = item.Quantity });
+            }
+            return response;
         }
 
     }
