@@ -1,0 +1,72 @@
+version: '3.4'
+
+services:
+
+  ms-sql-server: 
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+  rabbit-mq:
+    image:  rabbitmq:3.10-management
+
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+    environment:
+      Host: "ms-sql-server"
+      Pass: "pa55W0rd"
+    depends_on:
+      - ms-sql-server
+      - rabbit-mq 
+
+
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: src/Services/Basket/Basket.API/Dockerfile
+    depends_on:
+      - rabbit-mq 
+
+
+
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: src/Services/Order/Order.API/Dockerfile
+    depends_on:
+     - rabbit-mq 
+
+
+  payment.api:
+    image: ${DOCKER_REGISTRY-}paymentapi
+    build:
+      context: .
+      dockerfile: src/Services/Payment/Payment.API/Dockerfile
+    depends_on:     
+      - rabbit-mq 
+
+
+  stock.api:
+    image: ${DOCKER_REGISTRY-}stockapi
+    build:
+      context: .
+      dockerfile: src/Services/Stock/Stock.API/Dockerfile
+    depends_on:
+      - rabbit-mq 
+
+  eshop.gateway.yarp:
+    image: ${DOCKER_REGISTRY-}eshopgatewayyarp
+    build:
+      context: .
+      dockerfile: src/Gateways/eshop.Gateway.YARP/Dockerfile
+    depends_on:      
+      - ms-sql-server
+      - rabbit-mq   
+      - stock.api   
+      - payment.api
+      - order.api
+      - basket.api
+      - catalog.api 

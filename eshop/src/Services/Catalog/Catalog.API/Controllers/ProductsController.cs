@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductsController(IMediator mediator, IPublishEndpoint publishEndpoint) : ControllerBase
     {

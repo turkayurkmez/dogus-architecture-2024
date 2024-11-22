@@ -1,0 +1,39 @@
+﻿@address = http://localhost:5065
+@access_token = CfDJ8IcZNyHUcbNHkWk-gwqdCVuQqvOEkuMUnGr3Qg5OhN-yBVBjWHL22oxPit1jchMf1O0yzZxtWk_5xRMfekMxcsRCL9dxHjvV0tvStj07UFhx90I_lWFntJqHVarvQlqr2y_037SvzJPbnV_d4lcw87Q_w1lXgChaZqqVULUC1uvZyrJfiO_emRauBPQIMXprbzLR1Sckkjg7B8DUsLYYGRd2KxnsgypfvHZFeDPHVgFzYP1MlVOj2Xvnk3slZN89QJPhCOFrCG_6id_qQi0AFrI
+
+GET {{address}}/login
+
+
+### İlginç bir biçimde postman ile istek gönderildi :(
+GET {{address}}/products
+Authorization: Bearer {{access_token}}
+
+
+###
+GET {{address}}/products/3
+
+###
+GET {{address}}/products/search/p4
+
+###
+PUT {{address}}/products/discount/1
+Content-Type: application/json
+{
+  "id": 1,
+  "discount": 0.1
+}
+
+###
+POST {{address}}/orderCreate
+Content-Type: application/json
+{
+  "customerId": 5,
+  "creditCardInfo": "5555999911111",
+  "orderItems": [
+    {
+      "productId": 8,
+      "quantity": 3,
+      "price": 100
+    }
+  ]
+}

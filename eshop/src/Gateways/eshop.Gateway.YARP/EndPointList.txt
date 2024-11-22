@@ -1,0 +1,8 @@
+﻿Catalog:  http://localhost:5200 -  /api/products
+Basket: https://localhost:7070 
+Order: https://localhost:7071 - /orderCreate
+
+
+
+
+

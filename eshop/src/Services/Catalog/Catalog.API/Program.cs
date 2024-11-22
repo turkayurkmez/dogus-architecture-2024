@@ -16,6 +16,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("db");
+
+var host = builder.Configuration.GetSection("Host").Value;
+var pass = builder.Configuration.GetSection("Pass").Value;
+
+
+connectionString = connectionString.Replace("[HOST]", host)
+                                   .Replace("[PASS]", pass);
+
+
+
 builder.Services.AddDbContext<DogusEshopDbContext>(option => option.UseSqlServer(connectionString));
 builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<GetAllProductsQuery>());
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -24,7 +34,7 @@ builder.Services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((context, factoryConfig) =>
     {
-        factoryConfig.Host("localhost", "/", h =>
+        factoryConfig.Host("rabbit-mq", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -39,9 +49,12 @@ builder.Services.AddMassTransit(config =>
 });
 
 var app = builder.Build();
-//using var scope  = app.Services.CreateScope();
-//var db =  scope.ServiceProvider.GetRequiredService<DogusEshopDbContext>();
-//db.Database.Migrate();
+
+app.Logger.LogInformation($"---- Bağlantı bilgisi :{connectionString}");
+
+using var scope  = app.Services.CreateScope();
+var db =  scope.ServiceProvider.GetRequiredService<DogusEshopDbContext>();
+db.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

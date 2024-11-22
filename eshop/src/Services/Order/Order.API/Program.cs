@@ -18,7 +18,7 @@ builder.Services.AddMassTransit(config =>
 
     config.UsingRabbitMq((context, factoryConfig) =>
     {
-        factoryConfig.Host("localhost", "/", h =>
+        factoryConfig.Host("rabbit-mq", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -42,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapPost("/orderCreate", async (IPublishEndpoint publishEndpoint, OrderCreateRequest request) =>
 {

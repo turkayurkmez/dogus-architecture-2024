@@ -4,14 +4,14 @@ using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGrpc();
+//builder.Services.AddGrpc();
 
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<ProductPriceDiscountedConsumer>();
     config.UsingRabbitMq((context, factoryConfig) =>
     {
-        factoryConfig.Host("localhost", "/", h =>
+        factoryConfig.Host("rabbit-mq", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -26,6 +26,6 @@ builder.Services.AddMassTransit(config =>
 });
 var app = builder.Build();
 
-app.MapGrpcService<BasketService>();
+//app.MapGrpcService<BasketService>();
 app.MapGet("/basket", () => "Basket grpc ayakta!");
 app.Run();

@@ -13,7 +13,7 @@ builder.Services.AddMassTransit(config =>
     config.AddConsumer<StockAvailableConsumer>();
     config.UsingRabbitMq((context, factoryConfig) =>
     {
-        factoryConfig.Host("localhost", "/", h =>
+        factoryConfig.Host("rabbit-mq", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 
